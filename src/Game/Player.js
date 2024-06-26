@@ -29,9 +29,13 @@ class Player {
     if (this.game.keys.has(ARROW_LEFT_KEY)) this.x -= this.speed;
     if (this.game.keys.has(ARROW_RIGHT_KEY)) this.x += this.speed;
     // keeping inside the canvas bounds
-    if (this.x < 0) this.x = 0;
-    if (this.x > this.game.width - this.width)
-      this.x = this.game.width - this.width;
+    if (this.x < -this.width * 0.5) this.x = -this.width * 0.5;
+    if (this.x > this.game.width - this.width * 0.5)
+      this.x = this.game.width - this.width * 0.5;
+  }
+  shoot() {
+    const projectile = this.game.getProjectile();
+    if (projectile) projectile.start(this.x + this.width * 0.5, this.y);
   }
 }
 
