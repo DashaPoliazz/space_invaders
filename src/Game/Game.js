@@ -6,6 +6,16 @@ class Game {
     this.width = canvas.width;
     this.height = canvas.height;
     this.player = new Player(this);
+
+    this.keys = new Set();
+
+    window.addEventListener("keydown", ({ key }) => {
+      this.keys.add(key);
+    });
+
+    window.addEventListener("keyup", ({ key }) => {
+      this.keys.delete(key);
+    });
   }
 
   render(context) {
