@@ -1,3 +1,5 @@
+import Game from "./Game/Game.js";
+
 const WIDTH = 600;
 const HEIGHT = 800;
 
@@ -7,4 +9,15 @@ window.addEventListener("load", () => {
 
   canvas.widht = WIDTH;
   canvas.height = HEIGHT;
+
+  const game = new Game(canvas);
+  game.render(ctx);
+
+  function animate() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    game.render(ctx);
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 });
