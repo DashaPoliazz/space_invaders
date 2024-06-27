@@ -1,4 +1,4 @@
-import Enemy from "./Enemy.js";
+import Beetlemorph from "./Enemies/Beetlemorph.js";
 
 const SPEED_X = 1;
 const SPEED_Y = 0;
@@ -44,7 +44,7 @@ class Wave {
       for (let x = 0; x < this.game.columns; x++) {
         const enemyX = x * this.game.enemySize;
         const enemyY = y * this.game.enemySize;
-        this.enemies.push(new Enemy(this.game, enemyX, enemyY));
+        this.enemies.push(new Beetlemorph(this.game, enemyX, enemyY));
       }
     }
   }
