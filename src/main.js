@@ -7,8 +7,12 @@ window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
 
-  canvas.widht = WIDTH;
+  canvas.width = WIDTH;
   canvas.height = HEIGHT;
+  // everything that will drawn on canvas will be white
+  ctx.fillStyle = "white";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 5;
 
   const game = new Game(canvas);
   game.render(ctx);
