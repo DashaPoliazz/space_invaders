@@ -4,13 +4,14 @@ import Wave from "./Wave.js";
 
 const PROJECTILES_POOL_CAPACITY = 10;
 const ENTER_KEY = "Enter";
-const ENEMY_GRID_ROWS = 3;
-const ENEMY_GRID_COLS = 3;
+const ENEMY_GRID_ROWS = 5;
+const ENEMY_GRID_COLS = 10;
 const ENEMY_SIZE = 60;
 
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
+
     this.width = canvas.width;
     this.height = canvas.height;
     this.player = new Player(this);
@@ -30,6 +31,10 @@ class Game {
     // Enemy waves
     this.waves = [];
     this.waves.push(new Wave(this));
+    this.waveCount = 1;
+
+    this.score = 0;
+    this.gameOver = false;
 
     // Event listeners
     window.addEventListener("keydown", ({ key }) => {
@@ -42,6 +47,7 @@ class Game {
   }
 
   render(context) {
+    this.drawStatusText(context);
     this.player.draw(context);
     this.player.update();
     this.projectilesPool.forEach((projectile) => {
@@ -50,6 +56,16 @@ class Game {
     });
     this.waves.forEach((wave) => {
       wave.render(context);
+      if (
+        wave.enemies.length < 1 &&
+        !wave.nextWaveTriggered &&
+        !this.gameOver
+      ) {
+        this.newWave();
+        this.waveCount++;
+        wave.nextWaveTriggered = true;
+        this.player.lives += 1;
+      }
     });
   }
   // create projectiles object pool
@@ -71,6 +87,43 @@ class Game {
       a.y < b.y + b.height &&
       a.y + a.height > b.y
     );
+  }
+  drawStatusText(context) {
+    context.save();
+    context.shadowOffsetX = 2;
+    context.shadowOffsetY = 2;
+    context.shadowColor = "black";
+    context.fillText("Wave: " + this.waveCount, 20, 80);
+    context.fillText("Score: " + this.score, 20, 40);
+
+    for (let i = 0; i < this.player.lives; i++) {
+      context.fillRect(20 + 10 * i, 100, 5, 20);
+    }
+
+    if (this.gameOver) {
+      context.textAlign = "center";
+      context.font = "100px Impact";
+      context.fillText("GAME OVER!", this.width * 0.5, this.height * 0.5);
+      context.font = "30px Impact";
+      context.fillText(
+        "Press R to restart",
+        this.width * 0.5,
+        this.height * 0.5 + 30,
+      );
+    }
+    context.restore();
+  }
+  newWave() {
+    if (
+      Math.random() < 0.5 &&
+      this.columns * this.enemySize < this.width * 0.8
+    ) {
+      this.columns++;
+    } else if (this.rows * this.enemySize < this.height * 0.6) {
+      this.rows++;
+    }
+
+    this.waves.push(new Wave(this));
   }
 }
 

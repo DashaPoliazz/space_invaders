@@ -13,6 +13,7 @@ window.addEventListener("load", () => {
   ctx.fillStyle = "white";
   ctx.strokeStyle = "white";
   ctx.lineWidth = 5;
+  ctx.font = "30px Impact";
 
   const game = new Game(canvas);
   game.render(ctx);

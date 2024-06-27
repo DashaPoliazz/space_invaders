@@ -5,6 +5,7 @@ const ARROW_LEFT_KEY = "ArrowLeft";
 const ARROW_RIGHT_KEY = "ArrowRight";
 const ARROW_UP_KEY = "ArrowUp";
 const ARROW_DOWN_KEY = "ArrowDown";
+const LIVES = 3;
 
 class Player {
   constructor(game) {
@@ -17,6 +18,7 @@ class Player {
     this.y = this.game.height - this.height;
 
     this.speed = SPEED;
+    this.lives = LIVES;
   }
 
   draw(context) {

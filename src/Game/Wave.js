@@ -18,6 +18,7 @@ class Wave {
     this.speedY = SPEED_Y;
 
     this.enemies = [];
+    this.nextWaveTriggered = false;
     this.create();
   }
   render(context) {
