@@ -4,8 +4,9 @@ import Wave from "./Wave.js";
 
 const PROJECTILES_POOL_CAPACITY = 10;
 const ENTER_KEY = "Enter";
-const ENEMY_GRID_ROWS = 5;
-const ENEMY_GRID_COLS = 10;
+const LOWER_CASE_R_BTN = "r";
+const ENEMY_GRID_ROWS = 2;
+const ENEMY_GRID_COLS = 2;
 const ENEMY_SIZE = 60;
 
 class Game {
@@ -22,6 +23,7 @@ class Game {
     this.projectilesPool = [];
     this.numberOfProjectiles = PROJECTILES_POOL_CAPACITY;
     this.createProjectiles();
+    this.fired = false;
 
     // Set of enemies will be organized as grid
     this.columns = ENEMY_GRID_ROWS;
@@ -38,10 +40,13 @@ class Game {
 
     // Event listeners
     window.addEventListener("keydown", ({ key }) => {
+      if (key === ENTER_KEY && !this.fired) this.player.shoot();
       this.keys.add(key);
-      if (key === ENTER_KEY) this.player.shoot();
+      this.fired = true;
+      if (key === LOWER_CASE_R_BTN && this.gameOver) this.restart();
     });
     window.addEventListener("keyup", ({ key }) => {
+      this.fired = false;
       this.keys.delete(key);
     });
   }
@@ -124,6 +129,21 @@ class Game {
     }
 
     this.waves.push(new Wave(this));
+  }
+  restart() {
+    this.player.restart();
+
+    // Set of enemies will be organized as grid
+    this.columns = ENEMY_GRID_ROWS;
+    this.rows = ENEMY_GRID_COLS;
+
+    // Enemy waves
+    this.waves = [];
+    this.waves.push(new Wave(this));
+    this.waveCount = 1;
+
+    this.score = 0;
+    this.gameOver = false;
   }
 }
 

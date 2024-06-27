@@ -39,6 +39,13 @@ class Player {
     const projectile = this.game.getProjectile();
     if (projectile) projectile.start(this.x + this.width * 0.5, this.y);
   }
+  restart() {
+    // centering player
+    this.x = this.game.width * 0.5 - this.width * 0.5;
+    this.y = this.game.height - this.height;
+
+    this.lives = LIVES;
+  }
 }
 
 export default Player;
