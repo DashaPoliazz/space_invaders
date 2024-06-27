@@ -16,13 +16,15 @@ window.addEventListener("load", () => {
   ctx.font = "30px Impact";
 
   const game = new Game(canvas);
-  game.render(ctx);
 
-  function animate() {
+  let lastTime = 0;
+  function animate(timeStamp) {
+    const deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    game.render(ctx);
+    game.render(ctx, deltaTime);
     requestAnimationFrame(animate);
   }
 
-  animate();
+  animate(0);
 });

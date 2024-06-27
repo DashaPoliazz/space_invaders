@@ -8,6 +8,7 @@ const LOWER_CASE_R_BTN = "r";
 const ENEMY_GRID_ROWS = 5;
 const ENEMY_GRID_COLS = 2;
 const ENEMY_SIZE = 80;
+const SPRITE_INTERVAL = 120;
 
 class Game {
   constructor(canvas) {
@@ -35,8 +36,14 @@ class Game {
     this.waves.push(new Wave(this));
     this.waveCount = 1;
 
+    // Statistics
     this.score = 0;
     this.gameOver = false;
+
+    // Time slicing
+    this.spriteUpdate = false;
+    this.spriteTimer = 0;
+    this.spriteInterval = SPRITE_INTERVAL;
 
     // Event listeners
     window.addEventListener("keydown", ({ key }) => {
@@ -51,7 +58,16 @@ class Game {
     });
   }
 
-  render(context) {
+  render(context, deltaTime) {
+    // sprite timing
+    if (this.spriteTimer > this.spriteInterval) {
+      this.spriteUpdate = true;
+      this.spriteTimer = 0;
+    } else {
+      this.spriteUpdate = false;
+      this.spriteTimer += deltaTime;
+    }
+
     this.drawStatusText(context);
     this.player.draw(context);
     this.player.update();
