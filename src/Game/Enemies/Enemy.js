@@ -4,7 +4,6 @@ class Enemy {
 
     this.width = this.game.enemySize;
     this.height = this.game.enemySize;
-    console.log(positionX, positionY);
 
     this.x = 0;
     this.y = 0;

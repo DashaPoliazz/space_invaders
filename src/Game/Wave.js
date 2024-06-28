@@ -1,4 +1,5 @@
 import Beetlemorph from "./Enemies/Beetlemorph.js";
+import Rhinomorph from "./Enemies/Rhinomorph.js";
 
 const SPEED_X = 1;
 const SPEED_Y = 0;
@@ -44,7 +45,11 @@ class Wave {
       for (let x = 0; x < this.game.columns; x++) {
         const enemyX = x * this.game.enemySize;
         const enemyY = y * this.game.enemySize;
-        this.enemies.push(new Beetlemorph(this.game, enemyX, enemyY));
+        if (Math.random() < 0.5) {
+          this.enemies.push(new Rhinomorph(this.game, enemyX, enemyY));
+        } else {
+          this.enemies.push(new Beetlemorph(this.game, enemyX, enemyY));
+        }
       }
     }
   }

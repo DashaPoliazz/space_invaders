@@ -5,8 +5,8 @@ import Wave from "./Wave.js";
 const PROJECTILES_POOL_CAPACITY = 10;
 const ENTER_KEY = "Enter";
 const LOWER_CASE_R_BTN = "r";
-const ENEMY_GRID_ROWS = 5;
-const ENEMY_GRID_COLS = 2;
+const ENEMY_GRID_ROWS = 1;
+const ENEMY_GRID_COLS = 1;
 const ENEMY_SIZE = 80;
 const SPRITE_INTERVAL = 120;
 
