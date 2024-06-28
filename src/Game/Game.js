@@ -86,6 +86,10 @@ class Game {
         this.waveCount++;
         wave.nextWaveTriggered = true;
         this.player.lives += 1;
+        // adding extra live
+        if (this.player.lives < this.player.maxLives) {
+          this.player.maxLives += 1;
+        }
       }
     });
   }
@@ -117,8 +121,12 @@ class Game {
     context.fillText("Wave: " + this.waveCount, 20, 80);
     context.fillText("Score: " + this.score, 20, 40);
 
+    for (let i = 0; i < this.player.maxLives; i++) {
+      context.strokeRect(20 + 20 * i, 100, 10, 15);
+    }
+
     for (let i = 0; i < this.player.lives; i++) {
-      context.fillRect(20 + 10 * i, 100, 5, 20);
+      context.fillRect(20 + 20 * i, 100, 10, 15);
     }
 
     if (this.gameOver) {

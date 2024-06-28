@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   // everything that will drawn on canvas will be white
   ctx.fillStyle = "white";
   ctx.strokeStyle = "white";
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 1;
   ctx.font = "30px Impact";
 
   const game = new Game(canvas);

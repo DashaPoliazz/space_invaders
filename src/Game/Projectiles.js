@@ -1,5 +1,5 @@
-const WIDTH = 1;
-const HEIGHT = 20;
+const WIDTH = 4;
+const HEIGHT = 40;
 const SPEED = 20;
 
 class Projectile {
@@ -18,7 +18,10 @@ class Projectile {
 
   draw(context) {
     if (!this.free) {
+      context.save();
+      context.fillStyle = "gold";
       context.fillRect(this.x, this.y, this.width, this.height);
+      context.restore();
     }
   }
   update() {
