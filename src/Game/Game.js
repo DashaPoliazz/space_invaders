@@ -10,6 +10,9 @@ const ENEMY_GRID_ROWS = 1;
 const ENEMY_GRID_COLS = 1;
 const ENEMY_SIZE = 80;
 const SPRITE_INTERVAL = 120;
+// Every (wave % BOSS_SPAWN_FREQUENCY) === 0
+const BOSS_SPAWN_FREQUENCY = 2;
+const BOSS_LIVE_REWARD = 3;
 
 class Game {
   constructor(canvas) {
@@ -96,7 +99,6 @@ class Game {
         !this.gameOver
       ) {
         this.newWave();
-        this.waveCount++;
         wave.nextWaveTriggered = true;
         this.player.lives += 1;
         // adding extra live
@@ -156,16 +158,27 @@ class Game {
     context.restore();
   }
   newWave() {
-    if (
-      Math.random() < 0.5 &&
-      this.columns * this.enemySize < this.width * 0.8
-    ) {
-      this.columns++;
-    } else if (this.rows * this.enemySize < this.height * 0.6) {
-      this.rows++;
+    this.waveCount++;
+
+    if (this.player.lives < this.player.maxLives) {
+      this.player.lives += BOSS_LIVE_REWARD;
     }
 
-    this.waves.push(new Wave(this));
+    if (this.waveCount % BOSS_SPAWN_FREQUENCY === 0) {
+      this.bosses.push(new Boss(this, this.bossLives));
+    } else {
+      if (
+        Math.random() < 0.5 &&
+        this.columns * this.enemySize < this.width * 0.8
+      ) {
+        this.columns++;
+      } else if (this.rows * this.enemySize < this.height * 0.6) {
+        this.rows++;
+      }
+
+      this.waves.push(new Wave(this));
+    }
+
     // removing wave for deletion from the waves
     this.waves = this.waves.filter((wave) => !wave.markedForDeletion);
   }
@@ -177,12 +190,12 @@ class Game {
     this.rows = ENEMY_GRID_COLS;
 
     this.bosses = [];
+    this.bossLives = 10;
 
     // Enemy waves
     this.waves = [];
     // this.waves.push(new Wave(this));
-    this.bosses.push(new Boss(this));
-    console.log(this.bosses);
+    this.bosses.push(new Boss(this, this.bossLives));
     this.waveCount = 1;
 
     this.score = 0;

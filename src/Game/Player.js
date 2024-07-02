@@ -1,3 +1,5 @@
+import SmallLaser from "./Lasers/SmallLaser.js";
+
 const WIDTH = 140;
 const HEIGHT = 120;
 const SPEED = 5;
@@ -5,7 +7,10 @@ const ARROW_LEFT_KEY = "ArrowLeft";
 const ARROW_RIGHT_KEY = "ArrowRight";
 const ARROW_UP_KEY = "ArrowUp";
 const ARROW_DOWN_KEY = "ArrowDown";
+const SPACE_KEY = "Space";
 const ENTER_KEY = "Enter";
+const SMALL_LASER_ATTACK_KEY = "1";
+const BIG_LASER_ATTACK_KEY = "2";
 const LIVES = 3;
 const MAX_LIVES = 10;
 
@@ -27,11 +32,17 @@ class Player {
     this.jetsImage = document.getElementById("player_jets");
     this.frameX = 0;
     this.jetsFrame = 1;
+
+    // lasers
+    this.smallLaser = new SmallLaser(this.game);
   }
 
   draw(context) {
     if (this.game.keys.has(ENTER_KEY)) {
       this.frameX = 1;
+    } else if (this.game.keys.has(SMALL_LASER_ATTACK_KEY)) {
+      this.frameX = 2;
+      this.smallLaser.render(context);
     } else {
       this.frameX = 0;
     }
