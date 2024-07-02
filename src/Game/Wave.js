@@ -20,6 +20,7 @@ class Wave {
 
     this.enemies = [];
     this.nextWaveTriggered = false;
+    this.markedForDeletion = false;
     this.create();
   }
   render(context) {
@@ -39,6 +40,10 @@ class Wave {
       enemy.draw(context);
     });
     this.enemies = this.enemies.filter((object) => !object.markedForDeletion);
+    // Marking wave as wave for deletion
+    if (this.enemies.length <= 0) {
+      this.markedForDeletion = true;
+    }
   }
   create() {
     for (let y = 0; y < this.game.rows; y++) {

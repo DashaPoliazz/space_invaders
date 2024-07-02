@@ -1,6 +1,7 @@
 import Player from "./Player.js";
 import Projectile from "./Projectiles.js";
 import Wave from "./Wave.js";
+import Boss from "./Enemies/Boss.js";
 
 const PROJECTILES_POOL_CAPACITY = 10;
 const ENTER_KEY = "Enter";
@@ -33,7 +34,7 @@ class Game {
 
     // Enemy waves
     this.waves = [];
-    this.waves.push(new Wave(this));
+    // this.waves.push(new Wave(this));
     this.waveCount = 1;
 
     // Statistics
@@ -44,6 +45,10 @@ class Game {
     this.spriteUpdate = false;
     this.spriteTimer = 0;
     this.spriteInterval = SPRITE_INTERVAL;
+
+    // Bosses
+    this.bosses = [];
+    this.restart();
 
     // Event listeners
     window.addEventListener("keydown", ({ key }) => {
@@ -69,12 +74,20 @@ class Game {
     }
 
     this.drawStatusText(context);
-    this.player.draw(context);
-    this.player.update();
     this.projectilesPool.forEach((projectile) => {
       projectile.update();
       projectile.draw(context);
     });
+
+    this.bosses.forEach((boss) => {
+      boss.draw(context);
+      boss.update();
+    });
+    this.bosses = this.bosses.filter((boss) => !boss.markedForDeletion);
+
+    this.player.draw(context);
+    this.player.update();
+
     this.waves.forEach((wave) => {
       wave.render(context);
       if (
@@ -153,6 +166,8 @@ class Game {
     }
 
     this.waves.push(new Wave(this));
+    // removing wave for deletion from the waves
+    this.waves = this.waves.filter((wave) => !wave.markedForDeletion);
   }
   restart() {
     this.player.restart();
@@ -161,9 +176,13 @@ class Game {
     this.columns = ENEMY_GRID_ROWS;
     this.rows = ENEMY_GRID_COLS;
 
+    this.bosses = [];
+
     // Enemy waves
     this.waves = [];
-    this.waves.push(new Wave(this));
+    // this.waves.push(new Wave(this));
+    this.bosses.push(new Boss(this));
+    console.log(this.bosses);
     this.waveCount = 1;
 
     this.score = 0;
