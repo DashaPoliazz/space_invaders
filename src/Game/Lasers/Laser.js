@@ -20,6 +20,25 @@ class Laser {
       this.height,
     );
     context.restore();
+
+    // slowing the damage down (it's to easy to play with 0.3 dmg per frame)
+    if (this.game.spriteUpdate) {
+      this.game.waves.forEach((wave) => {
+        // There is only one wave in the game, so it's not n^2 time complexity
+        wave.enemies.forEach((enemy) => {
+          if (this.game.checkCollision(this, enemy)) {
+            console.log("hitr");
+            enemy.hit(this.damage);
+          }
+        });
+      });
+
+      this.game.bosses.forEach((boss) => {
+        if (this.game.checkCollision(this, boss)) {
+          boss.hit(this.damage);
+        }
+      });
+    }
   }
 }
 

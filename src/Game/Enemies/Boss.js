@@ -37,24 +37,28 @@ class Boss {
       this.width,
       this.height,
     );
-    if (this.lives > 0) {
+    if (this.lives >= 1) {
       context.save();
       context.textAlign = "center";
       context.shadowOffsetX = 3;
       context.shadowOffsetY = 3;
       context.shadowColor = "black";
 
-      context.fillText(this.lives, this.x + this.width * 0.5, this.y + 50);
+      context.fillText(
+        Math.floor(this.lives),
+        this.x + this.width * 0.5,
+        this.y + 50,
+      );
       context.restore();
     }
   }
   update() {
     this.speedY = 0;
-    if (this.game.spriteUpdate && this.lives > 0) this.frameX = 0;
+    if (this.game.spriteUpdate && this.lives >= 1) this.frameX = 0;
     if (this.y < 0) this.y += 4;
     if (
       (this.x < 0 || this.x > this.game.width - this.width) &&
-      this.lives > 0
+      this.lives >= 1
     ) {
       this.speedX *= -1;
       this.speedY = this.height * 0.5;
@@ -68,14 +72,14 @@ class Boss {
       if (
         this.game.checkCollision(this, projectile) &&
         !projectile.free &&
-        this.lives > 0
+        this.lives >= 1
       ) {
         this.hit(1);
         projectile.reset();
       }
     });
     // collision player/boss
-    if (this.game.checkCollision(this, this.game.player) && this.lives > 0) {
+    if (this.game.checkCollision(this, this.game.player) && this.lives >= 1) {
       this.game.gameOver = true;
       this.lives = 0;
     }

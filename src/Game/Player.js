@@ -1,3 +1,4 @@
+import BigLaser from "./Lasers/BigLaser.js";
 import SmallLaser from "./Lasers/SmallLaser.js";
 
 const WIDTH = 140;
@@ -35,6 +36,7 @@ class Player {
 
     // lasers
     this.smallLaser = new SmallLaser(this.game);
+    this.bigLaser = new BigLaser(this.game);
   }
 
   draw(context) {
@@ -43,6 +45,9 @@ class Player {
     } else if (this.game.keys.has(SMALL_LASER_ATTACK_KEY)) {
       this.frameX = 2;
       this.smallLaser.render(context);
+    } else if (this.game.keys.has(BIG_LASER_ATTACK_KEY)) {
+      this.frameX = 3;
+      this.bigLaser.render(context);
     } else {
       this.frameX = 0;
     }
