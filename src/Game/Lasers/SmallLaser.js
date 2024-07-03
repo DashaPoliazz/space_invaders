@@ -10,6 +10,7 @@ class SmallLaser extends Laser {
     this.width = SMALL_LASER_SIZE;
     this.damage = DAMAGE;
   }
+
   render(context) {
     if (this.game.player.energy > 1 && !this.game.player.cooldown) {
       this.game.player.frameX = 2;
