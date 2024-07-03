@@ -9,6 +9,8 @@ class Laser {
     this.x =
       this.game.player.x + this.game.player.width * 0.5 - this.width * 0.5;
 
+    this.game.player.energy -= this.damage;
+
     context.save();
     context.fillStyle = "gold";
     context.fillRect(this.x, this.y, this.width, this.height);
@@ -27,14 +29,13 @@ class Laser {
         // There is only one wave in the game, so it's not n^2 time complexity
         wave.enemies.forEach((enemy) => {
           if (this.game.checkCollision(this, enemy)) {
-            console.log("hitr");
             enemy.hit(this.damage);
           }
         });
       });
 
       this.game.bosses.forEach((boss) => {
-        if (this.game.checkCollision(this, boss)) {
+        if (this.game.checkCollision(this, boss) && boss.y >= 0) {
           boss.hit(this.damage);
         }
       });

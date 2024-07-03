@@ -14,6 +14,9 @@ const SMALL_LASER_ATTACK_KEY = "1";
 const BIG_LASER_ATTACK_KEY = "2";
 const LIVES = 3;
 const MAX_LIVES = 10;
+const ENERGY = 50;
+const MAX_ENERGY = 100;
+const ENERGY_REGENERATION_RATE = 0.05;
 
 class Player {
   constructor(game) {
@@ -37,16 +40,17 @@ class Player {
     // lasers
     this.smallLaser = new SmallLaser(this.game);
     this.bigLaser = new BigLaser(this.game);
+    this.energy = ENERGY;
+    this.maxEnergy = MAX_ENERGY;
+    this.cooldown = false;
   }
 
   draw(context) {
     if (this.game.keys.has(ENTER_KEY)) {
       this.frameX = 1;
     } else if (this.game.keys.has(SMALL_LASER_ATTACK_KEY)) {
-      this.frameX = 2;
       this.smallLaser.render(context);
     } else if (this.game.keys.has(BIG_LASER_ATTACK_KEY)) {
-      this.frameX = 3;
       this.bigLaser.render(context);
     } else {
       this.frameX = 0;
@@ -77,8 +81,16 @@ class Player {
     );
   }
   update() {
-    // if (this.game.keys.has(ARROW_UP_KEY)) this.y -= this.speed;
-    // if (this.game.keys.has(ARROW_DOWN_KEY)) this.y += this.speed;
+    // slowly recharge energy
+    if (this.energy < this.maxEnergy) {
+      this.energy += ENERGY_REGENERATION_RATE;
+    }
+    if (this.energy < 1) {
+      this.cooldown = true;
+    } else if (this.energy > this.maxEnergy * 0.2) {
+      this.cooldown = false;
+    }
+
     // horizontal movements
     if (this.game.keys.has(ARROW_LEFT_KEY)) {
       this.jetsFrame = 0;
