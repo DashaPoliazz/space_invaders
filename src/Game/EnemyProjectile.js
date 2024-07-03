@@ -1,8 +1,12 @@
 const WIDTH = 50;
 const HEIGHT = 35;
+const HORIZONTAL_PROJECTILES = 4;
+const VERTICAL_PROJECTILES = 2;
 
-class Projectile {
-  constructor() {
+class EnemyProjectile {
+  constructor(game) {
+    this.game = game;
+
     this.width = WIDTH;
     this.height = HEIGHT;
 
@@ -13,20 +17,31 @@ class Projectile {
 
     // When 'free' is false it means that we pulled it from the pool
     this.free = true;
+
+    this.image = document.getElementById("enemyProjectile");
+    this.frameX = Math.floor(Math.random() * HORIZONTAL_PROJECTILES);
+    this.frameY = Math.floor(Math.random() * VERTICAL_PROJECTILES);
   }
 
   draw(context) {
     if (!this.free) {
-      context.save();
-      context.fillStyle = "gold";
-      context.fillRect(this.x, this.y, this.width, this.height);
-      context.restore();
+      context.drawImage(
+        this.image,
+        this.frameX * this.width,
+        this.frameY * this.height,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height,
+      );
     }
   }
   update() {
     if (!this.free) {
-      this.y -= this.speed;
-      if (this.y < -this.height) this.reset();
+      this.y += this.speed;
+      if (this.y > this.game.height) this.reset();
     }
   }
   start(x, y) {
@@ -39,3 +54,5 @@ class Projectile {
     this.free = true;
   }
 }
+
+export default EnemyProjectile;

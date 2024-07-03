@@ -2,12 +2,13 @@ import Player from "./Player.js";
 import Projectile from "./Projectiles.js";
 import Wave from "./Wave.js";
 import Boss from "./Enemies/Boss.js";
+import EnemyProjectile from "./EnemyProjectile.js";
 
 const PROJECTILES_POOL_CAPACITY = 15;
 const ENTER_KEY = "Enter";
 const LOWER_CASE_R_BTN = "r";
-const ENEMY_GRID_ROWS = 1;
-const ENEMY_GRID_COLS = 1;
+const ENEMY_GRID_ROWS = 2;
+const ENEMY_GRID_COLS = 2;
 const ENEMY_SIZE = 80;
 const SPRITE_INTERVAL = 120;
 // Every (wave % BOSS_SPAWN_FREQUENCY) === 0
@@ -42,7 +43,7 @@ class Game {
 
     // Enemy projectiles pool
     this.enemyProjectilesPool = [];
-    this.numberOfEnemyProjectiles = PROJECTILES_POOL_CAPACITY;
+    this.numberOfEnemyProjectiles = 2;
     this.createEnemyProjectiles();
 
     // Statistics
@@ -87,6 +88,11 @@ class Game {
       projectile.draw(context);
     });
 
+    this.enemyProjectilesPool.forEach((projectile) => {
+      projectile.update();
+      projectile.draw(context);
+    });
+
     this.bosses.forEach((boss) => {
       boss.draw(context);
       boss.update();
@@ -115,8 +121,8 @@ class Game {
   }
   // create projectiles object pool
   createProjectiles() {
-    for (let i = 0; i < this.numberOfEnemyProjectiles; i++) {
-      this.enemyProjectilesPool.push(new EnemyProjectile());
+    for (let i = 0; i < this.numberOfProjectiles; i++) {
+      this.projectilesPool.push(new Projectile());
     }
   }
   // get free projectile object from the pool
@@ -125,8 +131,8 @@ class Game {
   }
   // create enemy projectiles object pool
   createEnemyProjectiles() {
-    for (let i = 0; i < this.numberOfProjectiles; i++) {
-      this.projectilesPool.push(new Projectile());
+    for (let i = 0; i < this.numberOfEnemyProjectiles; i++) {
+      this.enemyProjectilesPool.push(new EnemyProjectile(this));
     }
   }
   // get free projectile object from the pool

@@ -5,6 +5,7 @@ const RHINOMORPH_TYPES = 4;
 // Max frame is 2 according to the sprite
 const MAX_FRAME = 8;
 const LIVES = 4;
+const SHOTS = 4;
 
 class Eaglemorph extends Enemy {
   constructor(game, positionX, positionY) {
@@ -17,12 +18,23 @@ class Eaglemorph extends Enemy {
 
     this.lives = LIVES;
     this.maxLives = this.lives;
+    this.shots = 0;
   }
 
   hit(damage) {
+    if (this.shots < 4) this.shoot();
     this.lives -= damage;
     this.frameX = this.maxLives - Math.floor(this.lives);
     this.y += 3;
+  }
+
+  shoot() {
+    const projectile = this.game.getEnemyProjectile();
+    if (projectile) {
+      projectile.start(this.x + this.width * 0.5, this.y + this.height * 0.5);
+      this.shots++;
+    }
+    console.log(projectile);
   }
 }
 
