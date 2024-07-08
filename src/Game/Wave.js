@@ -1,6 +1,7 @@
 import Beetlemorph from "./Enemies/Beetlemorph.js";
 import Eaglemorph from "./Enemies/Eaglemorph.js";
 import Rhinomorph from "./Enemies/Rhinomorph.js";
+import Squidmorph from "./Enemies/squidmorph.js";
 
 const SPEED_X = 1;
 const SPEED_Y = 0;
@@ -51,10 +52,13 @@ class Wave {
       for (let x = 0; x < this.game.columns; x++) {
         const enemyX = x * this.game.enemySize;
         const enemyY = y * this.game.enemySize;
-        if (Math.random() < 0.8) {
-          this.enemies.push(new Eaglemorph(this.game, enemyX, enemyY));
-        } else if (Math.random() < 0.9) {
+        const probability = Math.random();
+        if (probability < 0.25) {
+          this.enemies.push(new Squidmorph(this.game, enemyX, enemyY));
+        } else if (probability < 0.5) {
           this.enemies.push(new Rhinomorph(this.game, enemyX, enemyY));
+        } else if (probability < 0.7) {
+          this.enemies.push(new Eaglemorph(this.game, enemyX, enemyY));
         } else {
           this.enemies.push(new Beetlemorph(this.game, enemyX, enemyY));
         }

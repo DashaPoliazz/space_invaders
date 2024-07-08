@@ -1,4 +1,4 @@
-const BOSSES_VARIETY = 4;
+const BOSSES_VARIETY = 8;
 const HEIGHT = 200;
 const WIDTH = 200;
 const SPEED = 1;
@@ -20,8 +20,9 @@ class Boss {
     this.lives = bossLives;
     this.maxLives = this.lives;
     this.markedForDeletion = false;
-    this.image = document.getElementById("boss");
-    this.frameX = 1;
+    this.image = document.getElementById("boss8");
+    // this.frameX = 1;
+    this.frameX = 0;
     this.frameY = Math.floor(Math.random() * BOSSES_VARIETY);
     this.maxFrame = MAX_FRAME;
   }

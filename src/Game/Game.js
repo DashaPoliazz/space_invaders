@@ -43,7 +43,7 @@ class Game {
 
     // Enemy projectiles pool
     this.enemyProjectilesPool = [];
-    this.numberOfEnemyProjectiles = 2;
+    this.numberOfEnemyProjectiles = PROJECTILES_POOL_CAPACITY;
     this.createEnemyProjectiles();
 
     // Statistics
@@ -225,8 +225,8 @@ class Game {
     this.bossLives = 10;
 
     // Enemy waves
-    this.waves = [new Wave(this)];
-    // this.waves.push(new Wave(this));
+    // this.waves = [new Wave(this)];
+    this.waves.push(new Wave(this));
     // this.bosses.push(new Boss(this, this.bossLives));
     this.waveCount = 1;
 
